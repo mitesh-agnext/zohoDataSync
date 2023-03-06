@@ -2,6 +2,8 @@ package com.agnext.zohodatasync.repository.impl;
 
 import com.agnext.zohodatasync.model.ApiDailyAttendanceModel;
 import com.agnext.zohodatasync.repository.ApiDailyAttendanceRepository;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,14 +12,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+@AllArgsConstructor
+@Slf4j
 public class JdbcApiDailyAttendanceImpl implements ApiDailyAttendanceRepository {
 
 	private final JdbcTemplate jdbcTemplate;
-
-	public JdbcApiDailyAttendanceImpl(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
-
 
 	@Override
 	public int save(ApiDailyAttendanceModel dailyAttendance) {
@@ -63,4 +62,29 @@ public class JdbcApiDailyAttendanceImpl implements ApiDailyAttendanceRepository 
 			return null;
 		}
 	}
+
+	@Override
+	public String findlatestDateByUserId(String userId) {
+		return null;
+	}
+
+	//select UserID,UserName,ProcessDate,Punch1_Date,Punch1_Time,Punch2_Date,Punch2_Time,OutPunch_Date,OutPunch_Time,SUMMARY,WorkTime_HHMM,FirstHalf,SecondHalf FROM COSEC.dbo.Mx_VEW_APIDailyAttendance where ProcessDate = '05/01/2023'
+
+	@Override
+	public List<ApiDailyAttendanceModel> findAllRecordsForDate(String date) {
+		try {
+			String query = "select UserID,UserName,ProcessDate,Punch1,Punch1_Date,Punch1_Time,Punch2,Punch2_Date,Punch2_Time,OutPunch,OutPunch_Date,OutPunch_Time,SUMMARY,WorkTime_HHMM,FirstHalf,SecondHalf FROM COSEC.dbo.Mx_VEW_APIDailyAttendance where ProcessDate ='" +  date + "'";
+			List<ApiDailyAttendanceModel> dailyAttendanceModel = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(ApiDailyAttendanceModel.class));
+			return dailyAttendanceModel;
+		} catch (IncorrectResultSizeDataAccessException e) {
+			log.error("got Exception : {}", e.getLocalizedMessage());
+			e.printStackTrace();
+		}catch (Exception exception){
+			log.error("got Exception : {}", exception.getLocalizedMessage());
+			exception.printStackTrace();
+		}
+		return null;
+	}
 }
+
+

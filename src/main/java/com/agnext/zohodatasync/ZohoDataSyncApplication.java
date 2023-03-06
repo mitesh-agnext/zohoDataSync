@@ -1,5 +1,6 @@
 package com.agnext.zohodatasync;
 
+import com.agnext.zohodatasync.service.AttendanceSynchService;
 import com.agnext.zohodatasync.service.CosecReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -16,8 +17,11 @@ public class ZohoDataSyncApplication implements CommandLineRunner  {
 
 	@Autowired CosecReader cosecReader;
 
+	@Autowired AttendanceSynchService attendanceSynchService;
+
 	@Override
 	public void run(String... args) throws Exception {
-		cosecReader.getDataForId();
+		//cosecReader.getDataForId();)
+		//attendanceSynchService.synchMatrixToZoho();
 	}
 }

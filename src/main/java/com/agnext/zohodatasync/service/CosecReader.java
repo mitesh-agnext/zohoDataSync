@@ -19,6 +19,11 @@ public class CosecReader {
 
 	private final AttendanceViewRepository attendanceViewRepository;
 
+
+	public void getDataByDateFromCosecDBServer(){
+
+	}
+
 	public void getDataForId(){
 		List<ApiDailyAttendanceModel> byId = attendanceImpl.findAllByUserId("AG123");
 		byId.stream().forEach(id -> {

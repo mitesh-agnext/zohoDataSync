@@ -18,4 +18,8 @@ public interface ApiDailyAttendanceRepository {
 
 	List<ApiDailyAttendanceModel> findAllByUserId(String userId);
 
+	String findlatestDateByUserId(String userId);
+
+	List<ApiDailyAttendanceModel> findAllRecordsForDate(String date);
+
 }
